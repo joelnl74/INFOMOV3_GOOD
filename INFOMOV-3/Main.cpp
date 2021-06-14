@@ -46,8 +46,8 @@ int main(int argc, char* argv[])
 	Rasterizer *rasterizer = new Rasterizer(screen);
 
 	rasterizer->mode = RasterizerMode::Line_And_Fill;
-	Mesh cube(EruptionMath::vec3(400.0f, 300.0f, 0.0f), "Resources/OBJ/Star.obj" );
-	Mesh cube1(EruptionMath::vec3(200.0f, 150.0f, 0.0f),"Resources/OBJ/Cube.obj"  );
+	Mesh cube(EruptionMath::vec3(400.0f, 300.0f, 0.0f), "Resources/OBJ/teapot.obj" );
+	// Mesh cube1(EruptionMath::vec3(200.0f, 150.0f, 0.0f),"Resources/OBJ/teapot.obj"  );
 
 	EruptionMath::Color color(255 ,255, 255);
 	//red pixel
@@ -67,7 +67,7 @@ int main(int argc, char* argv[])
 			SDL_FillRect(screen, 0, 0);
 			//render here
 		     cube.Draw(*rasterizer, color,ftime);
-			 cube1.Draw(*rasterizer, color, ftime);
+			// cube1.Draw(*rasterizer, color, ftime);
 
 			SDL_UpdateWindowSurface(window->window);
 	}
