@@ -156,6 +156,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BasicShader.cpp" />
+    <ClCompile Include="CLApplication.cpp" />
     <ClCompile Include="cl_helper.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -165,6 +166,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicShader.h" />
+    <ClInclude Include="CLApplication.h" />
     <ClInclude Include="cl_helper.h" />
     <ClInclude Include="EdgeEquation.h" />
     <ClInclude Include="Math.h" />
