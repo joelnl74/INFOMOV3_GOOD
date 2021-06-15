@@ -11,7 +11,7 @@ Window::Window()
 		SDL_WINDOWPOS_UNDEFINED,           // initial y position
 		800,                               // width, in pixels
 		600,                               // height, in pixels
-		0                                  // flags - see below
+		SDL_WINDOW_OPENGL                  // flags - see below
 	);
 
 	// Check that the window was successfully created
@@ -19,6 +19,11 @@ Window::Window()
 		// In the case that the window could not be made...
 		printf("Could not create window: %s\n", SDL_GetError());
 	}
+
+	/// <summary>
+	/// Create context for OpenCL to use.
+	/// </summary>
+	SDL_CreateRenderer(window, 1, SDL_WINDOW_OPENGL);
 
 	// The window is open: could enter program loop here (see SDL_PollEvent())
 }
