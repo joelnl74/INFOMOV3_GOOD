@@ -58,9 +58,9 @@ int main(int argc, char* argv[])
 	Mesh bunny5(EruptionMath::vec3(200.0f, 150.0f, 0.0f), "Resources/OBJ/bunny.obj");
 	Mesh bunny6(EruptionMath::vec3(600.0f, 150.0f, 0.0f), "Resources/OBJ/bunny.obj");
 
-	EruptionMath::Color color1(255 ,255, 255);
+	EruptionMath::Color color1(0 ,255, 0);
 	EruptionMath::Color color2(0, 0, 255);
-	EruptionMath::Color color3(128, 0, 0);
+	EruptionMath::Color color3(255, 0, 0);
 
 	while (g_Running)
 	{
@@ -75,13 +75,13 @@ int main(int argc, char* argv[])
 
 			SDL_FillRect(screen, 0, 0);
 			//render here
-			bunny1.Draw(*rasterizer, color1,ftime);
-			bunny2.Draw(*rasterizer, color2, ftime);
-			bunny3.Draw(*rasterizer, color3, ftime);
+			bunny1.Draw(*rasterizer, color1, color1, ftime);
+			bunny2.Draw(*rasterizer, color2, color2, ftime);
+			bunny3.Draw(*rasterizer, color3, color3, ftime);
 
-			bunny4.Draw(*rasterizer, color3, ftime);
-			bunny5.Draw(*rasterizer, color2, ftime);
-			bunny6.Draw(*rasterizer, color1, ftime);
+			bunny4.Draw(*rasterizer, color3, color3, ftime);
+			bunny5.Draw(*rasterizer, color2, color2, ftime);
+			bunny6.Draw(*rasterizer, color1, color1, ftime);
 
 			SDL_UpdateWindowSurface(window->window);
 	}

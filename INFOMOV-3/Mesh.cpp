@@ -11,7 +11,7 @@ Mesh::Mesh(EruptionMath::vec3 vposition, std::string filename)
 Mesh::~Mesh()
 {
 }
-void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, float time)
+void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, EruptionMath::Color lineColor, float time)
 {
 	fTheta += 1.0f * time;
 
@@ -50,7 +50,7 @@ void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, float time)
 
 	for (auto ver : toDraw)
 	{
-		raterizer.DrawTriangle(ver, ver.color.toRGB());
+		raterizer.DrawTriangle(ver, ver.color.toRGB(), lineColor);
 	}
 	// Changed move this code from inside the loop to outside the loop, more cache friendly
 }

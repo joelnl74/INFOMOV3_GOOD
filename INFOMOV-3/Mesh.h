@@ -9,7 +9,7 @@ class Mesh
 public:
 	Mesh(EruptionMath::vec3 position, std::string filename);
 	~Mesh();
-	void Draw(Rasterizer &raterizer, EruptionMath::Color color, float time);
+	void Draw(Rasterizer &raterizer, EruptionMath::Color color, EruptionMath::Color lineColor, float time);
 	std::vector<EruptionMath::Triangle> verticies;
 	BasicShader *shader;
 	EruptionMath::vec3 position;

@@ -132,19 +132,17 @@ void Rasterizer::DrawLine(EruptionMath::vec3 vt1, EruptionMath::vec3 vt2, Uint32
 		}
 	}
 }
-void Rasterizer::DrawTriangle(EruptionMath::Triangle tri, unsigned int color)
+void Rasterizer::DrawTriangle(EruptionMath::Triangle tri, unsigned int color, EruptionMath::Color colorLine)
 {
-	EruptionMath::Color color2(0, 0, 125);
-
 	if (mode == RasterizerMode::Line || mode == RasterizerMode::Line_And_Fill)
 	{
-		//std::thread thread1(std::bind(&Rasterizer::DrawLine, this, std::ref(tri.p[0]), std::ref(tri.p[1]), color2.toRGB()));
-		//std::thread thread2(std::bind(&Rasterizer::DrawLine, this, std::ref(tri.p[1]), std::ref(tri.p[2]), color2.toRGB()));
-		//std::thread thread3(std::bind(&Rasterizer::DrawLine, this, std::ref(tri.p[2]), std::ref(tri.p[1]), color2.toRGB()));
-		
-		DrawLine(tri.p[0], tri.p[1], color2.toRGB());
-		DrawLine(tri.p[1], tri.p[2], color2.toRGB());
-		DrawLine(tri.p[2], tri.p[0], color2.toRGB());
+		// Change Cache conversion, because we use it 3 times
+		unsigned int lineColor = colorLine.toRGB();
+
+		DrawLine(tri.p[0], tri.p[1], lineColor);
+		DrawLine(tri.p[1], tri.p[2], lineColor);
+		DrawLine(tri.p[2], tri.p[0], lineColor);
+		// End change
 	}
 
 	if (mode == RasterizerMode::Fill || mode == RasterizerMode::Line_And_Fill)
