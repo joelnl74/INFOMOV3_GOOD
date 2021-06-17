@@ -120,7 +120,7 @@ namespace EruptionMath
 	struct  Triangle
 	{
 		vec3 p[3];
-		Color color;
+		unsigned int color;
 		Triangle(vec3 vt1, vec3 vt2, vec3 vt3)
 		{
 			p[0] = vt1;

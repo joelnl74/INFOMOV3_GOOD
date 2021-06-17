@@ -32,7 +32,7 @@ void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, float time)
 		vertex.p[1] = shader->VertexShader(tri.p[1]);
 		vertex.p[2] = shader->VertexShader(tri.p[2]);
 
-		vertex.color = shader->FragmentShader(color);
+		vertex.color = shader->FragmentShader(color).toRGB();
 
 		toDraw.push_back(vertex);
 	}
@@ -47,9 +47,9 @@ void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, float time)
 		return z1 > z2;
 	});
 
-	for (auto ver : toDraw)
+	for (auto vertex : toDraw)
 	{
-		raterizer.DrawTriangle(ver, ver.color.toRGB());
+		raterizer.DrawTriangle(vertex, vertex.color);
 	}
 	// Changed move this code from inside the loop to outside the loop, more cache friendly
 }
