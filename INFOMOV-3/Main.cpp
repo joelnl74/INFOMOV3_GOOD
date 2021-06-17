@@ -50,11 +50,17 @@ int main(int argc, char* argv[])
 	clApplication->InitCL();
 
 	rasterizer->mode = RasterizerMode::Line_And_Fill;
-	Mesh cube(EruptionMath::vec3(400.0f, 300.0f, 0.0f), "Resources/OBJ/teapot.obj" );
+	Mesh bunny1(EruptionMath::vec3(400.0f, 450.0f, 0.0f), "Resources/OBJ/bunny.obj" );
+	Mesh bunny2(EruptionMath::vec3(200.0f, 450.0f, 0.0f), "Resources/OBJ/bunny.obj");
+	Mesh bunny3(EruptionMath::vec3(600.0f, 450.0f, 0.0f), "Resources/OBJ/bunny.obj");
 
-	EruptionMath::Color color(255 ,255, 255);
-	//red pixel
+	Mesh bunny4(EruptionMath::vec3(400.0f, 150.0f, 0.0f), "Resources/OBJ/bunny.obj");
+	Mesh bunny5(EruptionMath::vec3(200.0f, 150.0f, 0.0f), "Resources/OBJ/bunny.obj");
+	Mesh bunny6(EruptionMath::vec3(600.0f, 150.0f, 0.0f), "Resources/OBJ/bunny.obj");
+
+	EruptionMath::Color color1(255 ,255, 255);
 	EruptionMath::Color color2(0, 0, 255);
+	EruptionMath::Color color3(128, 0, 0);
 
 	while (g_Running)
 	{
@@ -69,7 +75,13 @@ int main(int argc, char* argv[])
 
 			SDL_FillRect(screen, 0, 0);
 			//render here
-		     cube.Draw(*rasterizer, color,ftime);
+			bunny1.Draw(*rasterizer, color1,ftime);
+			bunny2.Draw(*rasterizer, color2, ftime);
+			bunny3.Draw(*rasterizer, color3, ftime);
+
+			bunny4.Draw(*rasterizer, color3, ftime);
+			bunny5.Draw(*rasterizer, color2, ftime);
+			bunny6.Draw(*rasterizer, color1, ftime);
 
 			SDL_UpdateWindowSurface(window->window);
 	}

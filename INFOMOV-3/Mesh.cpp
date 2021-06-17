@@ -23,6 +23,7 @@ void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, float time)
 	{
 		EruptionMath::Triangle vertex(EruptionMath::vec3(0, 0, 0), EruptionMath::vec3(0, 0, 0), EruptionMath::vec3(0, 0, 0));
 		
+		// Uniforms
 		if (shader != 0)
 		{
 			shader->SetTime(fTheta);
@@ -47,9 +48,9 @@ void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, float time)
 		return z1 > z2;
 	});
 
-	for (auto vertex : toDraw)
+	for (auto ver : toDraw)
 	{
-		raterizer.DrawTriangle(vertex, vertex.color);
+		raterizer.DrawTriangle(ver, ver.color.toRGB());
 	}
 	// Changed move this code from inside the loop to outside the loop, more cache friendly
 }
