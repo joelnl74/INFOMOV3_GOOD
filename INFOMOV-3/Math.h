@@ -1,5 +1,7 @@
 #pragma once
 #include <cmath>
+#include "immintrin.h" // for AVX 
+#include "nmmintrin.h" // for SSE4.2
 
 namespace EruptionMath
 {
@@ -133,7 +135,7 @@ namespace EruptionMath
 	{
 		float m4[4][4] = { 0 };
 
-		mat4 Matrix_MultiplyMatrix(mat4 &m1, mat4 &m2)
+		__forceinline mat4 Matrix_MultiplyMatrix(mat4 &m1, mat4 &m2)
 		{
 			mat4 matrix;
 			for (int c = 0; c < 4; c++)
@@ -143,7 +145,7 @@ namespace EruptionMath
 		}
 
 		//Create a projection matrix
-		mat4 ProjectionMatirx(float fNearr, float fFarr, float fFovv, float width, float height)
+		__forceinline mat4 ProjectionMatirx(float fNearr, float fFarr, float fFovv, float width, float height)
 		{
 			mat4 projection;
 
@@ -162,7 +164,7 @@ namespace EruptionMath
 
 			return projection;
 		};
-		mat4 RotateZ(float fAngleRad)
+		__forceinline mat4 RotateZ(float fAngleRad)
 		{
 			mat4 matRotZ;
 			// Rotation Z
@@ -174,7 +176,7 @@ namespace EruptionMath
 			matRotZ.m4[3][3] = 1.0f;
 			return matRotZ;
 		}
-		mat4 RotateX(float fAngleRad)
+		__forceinline mat4 RotateX(float fAngleRad)
 		{
 			mat4 matRotX;
 			// Rotation X
@@ -187,7 +189,7 @@ namespace EruptionMath
 
 			return matRotX;
 		};
-		mat4 Identity()
+		__forceinline mat4 Identity()
 		{
 			mat4 matrix;
 
@@ -198,7 +200,7 @@ namespace EruptionMath
 
 			return matrix;
 		}
-		mat4 Matirx_Translation(float x, float y, float z)
+		__forceinline mat4 Matirx_Translation(float x, float y, float z)
 		{
 			mat4 matrix;
 			matrix.m4[0][0] = 1.0f;
@@ -211,7 +213,7 @@ namespace EruptionMath
 			return matrix;
 		}
 		//Multiply a vector by a matrix
-		vec3 MulitiplyMatrixVector(vec3 &i, mat4 &m)
+		__forceinline vec3 MulitiplyMatrixVector(vec3 &i, mat4 &m)
 		{
 			vec3 v;
 			v.x = i.x * m.m4[0][0] + i.y * m.m4[1][0] + i.z * m.m4[2][0] + i.w * m.m4[3][0];
