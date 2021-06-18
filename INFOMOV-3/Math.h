@@ -29,7 +29,7 @@ namespace EruptionMath
 			return vec3(x / k,y /k, z / k);
 		}
 		//get Magnitude of the vector
-		float GetMagnitude()
+		__forceinline float GetMagnitude()
 		{
 			return sqrtf(x * x + y * y + z * z);
 		}
@@ -39,7 +39,7 @@ namespace EruptionMath
 			return vec3(x * num, y * num, z * num);
 		}
 		//normalize vector
-		vec3 normalize()
+		__forceinline vec3 normalize()
 		{
 			float magnitude = sqrtf(x * x + y * y + z * z);
 			x /= magnitude;
@@ -49,12 +49,12 @@ namespace EruptionMath
 			return vec3(x, y, z);
 		}
 		//calculate and return dot product
-		float DotProduct(const vec3 &vec, const vec3 &vec1) const
+		__forceinline float DotProduct(const vec3 &vec, const vec3 &vec1) const
 		{
 			return (vec.x * vec1.x) + (vec.y * vec1.y) + (vec.z * vec1.z);
 		}
 		//calculate and return cross product
-		vec3 CrossProduct(const vec3 &vec) const
+		__forceinline vec3 CrossProduct(const vec3 &vec) const
 		{
 			return vec3(y * vec.z - z * vec.y,
 				z * vec.x - x * vec.z,
@@ -84,7 +84,7 @@ namespace EruptionMath
 			return vec2(x * num, y * num);
 		}
 		//normalize
-		void normalize()
+		__forceinline void normalize()
 		{
 			float magnitude = sqrtf(x * x + y * y);
 			x /= magnitude;
@@ -137,9 +137,9 @@ namespace EruptionMath
 
 		__forceinline mat4 Matrix_MultiplyMatrix(mat4 &m1, mat4 &m2)
 		{
-			mat4 matrix;
-			for (int c = 0; c < 4; c++)
-				for (int r = 0; r < 4; r++)
+			mat4 matrix{};
+			for (int r = 0; r < 4; r++)
+				for (int c = 0; c < 4; c++)
 					matrix.m4[r][c] = m1.m4[r][0] * m2.m4[0][c] + m1.m4[r][1] * m2.m4[1][c] + m1.m4[r][2] * m2.m4[2][c] + m1.m4[r][3] * m2.m4[3][c];
 			return matrix;
 		}
