@@ -41,6 +41,9 @@ int main(int argc, char* argv[])
 	unsigned int old_time, current_time = 0;
 	float ftime;
 
+	clock_t current_ticks, delta_ticks;
+	clock_t fps = 0;
+
 	//create window,draw surface and Rasterizer
 	Window *window = new Window();
 	SDL_Surface *screen = SDL_GetWindowSurface(window->window);
@@ -66,10 +69,14 @@ int main(int argc, char* argv[])
 	{
 		old_time = current_time;
 		current_time = SDL_GetTicks();
-
 		ftime = (current_time - old_time) / 1000.0f;
-		// printf("%f", ftime);
+
+		// FPS
+		current_ticks = clock();
+		// END FPS
+
 		SDL_Event event;
+		
 		while (SDL_PollEvent(&event))
 			HandleEvent(event);
 
@@ -84,6 +91,11 @@ int main(int argc, char* argv[])
 			bunny6.Draw(*rasterizer, color1, color1, ftime);
 
 			SDL_UpdateWindowSurface(window->window);
+
+		delta_ticks = clock() - current_ticks; //the time, in ms, that took to render the scene
+		if (delta_ticks > 0)
+			fps = CLOCKS_PER_SEC / delta_ticks;
+		std::cout << "FPS: " << fps << std::endl;
 	}
 	// Close and destroy the window
 	SDL_DestroyWindow(window->window);
