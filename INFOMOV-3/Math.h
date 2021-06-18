@@ -137,10 +137,13 @@ namespace EruptionMath
 
 		__forceinline mat4 Matrix_MultiplyMatrix(mat4 &m1, mat4 &m2)
 		{
+			// Changed reorder loop Increase FPS by one.
 			mat4 matrix{};
 			for (int r = 0; r < 4; r++)
 				for (int c = 0; c < 4; c++)
 					matrix.m4[r][c] = m1.m4[r][0] * m2.m4[0][c] + m1.m4[r][1] * m2.m4[1][c] + m1.m4[r][2] * m2.m4[2][c] + m1.m4[r][3] * m2.m4[3][c];
+			// Changed reorder loop Increase FPS by one.
+
 			return matrix;
 		}
 
