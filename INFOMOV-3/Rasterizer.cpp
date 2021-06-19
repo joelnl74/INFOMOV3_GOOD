@@ -159,8 +159,6 @@ void Rasterizer::DrawTriangle(EruptionMath::Triangle tri, unsigned int color, Er
 		EdgeEquation e1(tri.p[1], tri.p[2]);
 		EdgeEquation e2(tri.p[2], tri.p[0]);
 
-		float area = 0.5 * (e0.c + e1.c + e2.c);
-
 		// Add 0.5 to sample at pixel centers. 
 		for (float x = minX + 0.5f, xm = maxX + 0.5f; x <= xm; x += 1.0f)
 			for (float y = minY + 0.5f, ym = maxY + 0.5f; y <= ym; y += 1.0f)

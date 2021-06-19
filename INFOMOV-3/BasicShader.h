@@ -14,13 +14,12 @@ class BasicShader : public Shader
 public:
 	BasicShader();
 	~BasicShader();
-	 EruptionMath::vec3 VertexShader(EruptionMath::vec3 vec3);
-	 EruptionMath::Color FragmentShader(EruptionMath::Color color);
+
+	 __forceinline EruptionMath::vec3 VertexShader(EruptionMath::vec3 vec3);
+	 __forceinline EruptionMath::Color FragmentShader(EruptionMath::Color color);
 
 	void SetTime(float x) { 
 		time = x;
-
-		SetupBeforeRendering();
 	};
 	void SetPosition(EruptionMath::vec3 x) { pos = x; };
 	void SetupBeforeRendering();

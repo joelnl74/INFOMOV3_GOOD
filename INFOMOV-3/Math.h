@@ -123,6 +123,12 @@ namespace EruptionMath
 	{
 		vec3 p[3];
 		Color color;
+
+		Triangle()
+		{
+
+		}
+
 		Triangle(vec3 vt1, vec3 vt2, vec3 vt3)
 		{
 			p[0] = vt1;

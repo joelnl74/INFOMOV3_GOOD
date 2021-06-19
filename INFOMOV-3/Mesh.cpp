@@ -15,8 +15,6 @@ void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, EruptionMath::
 {
 	fTheta += 1.0f * time;
 
-	EruptionMath::vec3 light_direction(0.0f, 0.0f, -1.0f);
-
 	std::vector<EruptionMath::Triangle> toDraw;
 
 	// CHANGED CAN BE SET ONCE
@@ -24,6 +22,7 @@ void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, EruptionMath::
 	{
 		shader->SetTime(fTheta);
 		shader->SetPosition(position);
+		shader->SetupBeforeRendering();
 	}
 	// END CHANGE
 
@@ -31,15 +30,15 @@ void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, EruptionMath::
 	for (auto &tri : verticies)
 	{
 	// ENDCHANGE
-		EruptionMath::Triangle vertex(EruptionMath::vec3(0, 0, 0), EruptionMath::vec3(0, 0, 0), EruptionMath::vec3(0, 0, 0));
+		EruptionMath::Triangle triangle;
 		
-		vertex.p[0] = shader->VertexShader(tri.p[0]);
-		vertex.p[1] = shader->VertexShader(tri.p[1]);
-		vertex.p[2] = shader->VertexShader(tri.p[2]);
+		triangle.p[0] = shader->VertexShader(tri.p[0]);
+		triangle.p[1] = shader->VertexShader(tri.p[1]);
+		triangle.p[2] = shader->VertexShader(tri.p[2]);
 
-		vertex.color = shader->FragmentShader(color).toRGB();
+		triangle.color = shader->FragmentShader(color).toRGB();
 
-		toDraw.push_back(vertex);
+		toDraw.push_back(triangle);
 	}
 
 	// Changed move this code from inside the loop to outside the loop, more cache friendly
