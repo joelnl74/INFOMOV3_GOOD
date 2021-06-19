@@ -226,17 +226,20 @@ namespace EruptionMath
 			// v.w = i.x * m.m4[0][3] + i.y * m.m4[1][3] + i.z * m.m4[2][3] + i.w * m.m4[3][3];
 			// END REFERENCE CODE
 
-			// PUT MATRIX DATA IN SIMD REGISTERS
+			// PUT MATRIX DATA IN SIMD VAR.
 			__m128 i0 = { m.m4[0][0], m.m4[1][0], m.m4[2][0], m.m4[3][0] };
 			__m128 i1 = { m.m4[0][1], m.m4[1][1], m.m4[2][1], m.m4[3][1] };
 			__m128 i2 = { m.m4[0][2], m.m4[1][2], m.m4[2][2], m.m4[3][2] };
 			__m128 i3 = { m.m4[0][3], m.m4[1][3], m.m4[2][3], m.m4[3][3] };
 
+			// PUT THE VECTOR IN SIMD VAR.
+			__m128 v4 = { v.x, v.y, v.z, v.w };
+
 			// Multiply packed single-precision (32-bit) floating-point elements in a and b, and store the results in dst.
-			__m128 m0 = _mm_mul_ps({ v.x, v.y, v.z, v.w }, i0);
-			__m128 m1 = _mm_mul_ps({ v.x, v.y, v.z, v.w }, i1);
-			__m128 m2 = _mm_mul_ps({ v.x, v.y, v.z, v.w }, i2);
-			__m128 m3 = _mm_mul_ps({ v.x, v.y, v.z, v.w }, i3);
+			__m128 m0 = _mm_mul_ps(v4, i0);
+			__m128 m1 = _mm_mul_ps(v4, i1);
+			__m128 m2 = _mm_mul_ps(v4, i2);
+			__m128 m3 = _mm_mul_ps(v4, i3);
 
 			// Unpack and interleave single-precision (32-bit) floating-point elements from the low half of a and b, and store the results in dst.
 			__m128 u0 = _mm_unpacklo_ps(m0, m1);
