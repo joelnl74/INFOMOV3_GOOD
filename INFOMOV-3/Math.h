@@ -216,15 +216,50 @@ namespace EruptionMath
 			return matrix;
 		}
 		//Multiply a vector by a matrix
-		__forceinline vec3 MulitiplyMatrixVector(vec3 &i, mat4 &m)
+		__forceinline vec3 MulitiplyMatrixVector(vec3 &v, mat4 &m)
 		{
-			vec3 v;
-			v.x = i.x * m.m4[0][0] + i.y * m.m4[1][0] + i.z * m.m4[2][0] + i.w * m.m4[3][0];
-			v.y = i.x * m.m4[0][1] + i.y * m.m4[1][1] + i.z * m.m4[2][1] + i.w * m.m4[3][1];
-			v.z = i.x * m.m4[0][2] + i.y * m.m4[1][2] + i.z * m.m4[2][2] + i.w * m.m4[3][2];
-			v.w = i.x * m.m4[0][3] + i.y * m.m4[1][3] + i.z * m.m4[2][3] + i.w * m.m4[3][3];
+			// BEGIN REFERENCE CODE
+			// vec3 v;
+			// v.x = i.x * m.m4[0][0] + i.y * m.m4[1][0] + i.z * m.m4[2][0] + i.w * m.m4[3][0];
+			// v.y = i.x * m.m4[0][1] + i.y * m.m4[1][1] + i.z * m.m4[2][1] + i.w * m.m4[3][1];
+			// v.z = i.x * m.m4[0][2] + i.y * m.m4[1][2] + i.z * m.m4[2][2] + i.w * m.m4[3][2];
+			// v.w = i.x * m.m4[0][3] + i.y * m.m4[1][3] + i.z * m.m4[2][3] + i.w * m.m4[3][3];
+			// END REFERENCE CODE
 
-			return v;
+			// PUT MATRIX DATA IN SIMD REGISTERS
+			__m128 i0 = { m.m4[0][0], m.m4[1][0], m.m4[2][0], m.m4[3][0] };
+			__m128 i1 = { m.m4[0][1], m.m4[1][1], m.m4[2][1], m.m4[3][1] };
+			__m128 i2 = { m.m4[0][2], m.m4[1][2], m.m4[2][2], m.m4[3][2] };
+			__m128 i3 = { m.m4[0][3], m.m4[1][3], m.m4[2][3], m.m4[3][3] };
+
+			// Multiply packed single-precision (32-bit) floating-point elements in a and b, and store the results in dst.
+			__m128 m0 = _mm_mul_ps({ v.x, v.y, v.z, v.w }, i0);
+			__m128 m1 = _mm_mul_ps({ v.x, v.y, v.z, v.w }, i1);
+			__m128 m2 = _mm_mul_ps({ v.x, v.y, v.z, v.w }, i2);
+			__m128 m3 = _mm_mul_ps({ v.x, v.y, v.z, v.w }, i3);
+
+			// Unpack and interleave single-precision (32-bit) floating-point elements from the low half of a and b, and store the results in dst.
+			__m128 u0 = _mm_unpacklo_ps(m0, m1);
+			// Unpack and interleave single-precision (32-bit) floating-point elements from the higher half of a and b, and store the results in dst.
+			__m128 u1 = _mm_unpackhi_ps(m0, m1);
+			// Add them together
+			__m128 a0 = _mm_add_ps(u0, u1);
+
+			// Unpack and interleave single-precision (32-bit) floating-point elements from the low half of a and b, and store the results in dst.
+			__m128 u2 = _mm_unpacklo_ps(m2, m3);
+			// Unpack and interleave single-precision (32-bit) floating-point elements from the higher half of a and b, and store the results in dst.
+			__m128 u3 = _mm_unpackhi_ps(m2, m3);
+			// Add them together
+			__m128 a1 = _mm_add_ps(u2, u3);
+
+			// Unpack and interleave single-precision (32-bit) floating-point elements from the low half of a and b, and store the results in dst.
+			__m128 f0 = _mm_movelh_ps(a0, a1);
+			// Unpack and interleave single-precision (32-bit) floating-point elements from the higher half of a and b, and store the results in dst.
+			__m128 f1 = _mm_movehl_ps(a1, a0);
+			// Add them together
+			__m128 f2 = _mm_add_ps(f0, f1);
+
+			return vec3{ f2.m128_f32[0], f2.m128_f32[1], f2.m128_f32[2], f2.m128_f32[3] };
 		}
 	};
 };

@@ -83,12 +83,12 @@ int main(int argc, char* argv[])
 			SDL_FillRect(screen, 0, 0);
 			//render here
 			bunny1.Draw(*rasterizer, color1, color1, ftime);
-			bunny2.Draw(*rasterizer, color2, color2, ftime);
-			bunny3.Draw(*rasterizer, color3, color3, ftime);
+			// bunny2.Draw(*rasterizer, color2, color2, ftime);
+			// bunny3.Draw(*rasterizer, color3, color3, ftime);
 
-			bunny4.Draw(*rasterizer, color3, color3, ftime);
-			bunny5.Draw(*rasterizer, color2, color2, ftime);
-			bunny6.Draw(*rasterizer, color1, color1, ftime);
+			// bunny4.Draw(*rasterizer, color3, color3, ftime);
+			// bunny5.Draw(*rasterizer, color2, color2, ftime);
+			// bunny6.Draw(*rasterizer, color1, color1, ftime);
 
 			SDL_UpdateWindowSurface(window->window);
 

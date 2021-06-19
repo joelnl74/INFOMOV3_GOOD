@@ -19,16 +19,20 @@ void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, EruptionMath::
 
 	std::vector<EruptionMath::Triangle> toDraw;
 
-	for (auto tri : verticies)
+	// CHANGED CAN BE SET ONCE
+	if (shader != 0)
 	{
+		shader->SetTime(fTheta);
+		shader->SetPosition(position);
+	}
+	// END CHANGE
+
+	// CHANGED TO REFERNECE SO WE DONT MAKE A COPY
+	for (auto &tri : verticies)
+	{
+	// ENDCHANGE
 		EruptionMath::Triangle vertex(EruptionMath::vec3(0, 0, 0), EruptionMath::vec3(0, 0, 0), EruptionMath::vec3(0, 0, 0));
 		
-		// Uniforms
-		if (shader != 0)
-		{
-			shader->SetTime(fTheta);
-			shader->SetPosition(position);
-		}
 		vertex.p[0] = shader->VertexShader(tri.p[0]);
 		vertex.p[1] = shader->VertexShader(tri.p[1]);
 		vertex.p[2] = shader->VertexShader(tri.p[2]);
@@ -48,8 +52,10 @@ void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, EruptionMath::
 		return z1 > z2;
 	});
 
-	for (auto ver : toDraw)
+	// CHANGED TO REFERENCE.
+	for (auto &ver : toDraw)
 	{
+	// CHANGED TO REFERENCE.
 		raterizer.DrawTriangle(ver, ver.color.toRGB(), lineColor);
 	}
 	// Changed move this code from inside the loop to outside the loop, more cache friendly
