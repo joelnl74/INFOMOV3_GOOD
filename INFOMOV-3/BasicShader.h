@@ -50,7 +50,7 @@ public:
 
 	float time;
 	EruptionMath::vec3 pos;
-	EruptionMath::mat4 rot, z, x, projectionMatirx, matTans;
+	EruptionMath::mat4 rot, z, x, projectionMatirx, matTans, rotationMat;
 	float fast_cossin_table[MAX_CIRCLE_ANGLE]; // Declare table of fast cosinus and sinus
 
 private:

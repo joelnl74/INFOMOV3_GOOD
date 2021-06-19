@@ -22,9 +22,7 @@ EruptionMath::vec3 BasicShader::VertexShader(EruptionMath::vec3 vec3)
 	EruptionMath::mat4 matWorld;
 
 	//Matrix multiplication
-	matWorld = matWorld.Identity();
-    matWorld = matWorld.Matrix_MultiplyMatrix(z, x);
-	matWorld = matWorld.Matrix_MultiplyMatrix(matWorld, matTans);
+	matWorld = matWorld.Matrix_MultiplyMatrix(rotationMat, matTans);
 
 	transformed = matWorld.MulitiplyMatrixVector(vec3, matWorld);
 	projected = matWorld.MulitiplyMatrixVector(transformed, projectionMatirx);
@@ -45,6 +43,8 @@ EruptionMath::Color BasicShader::FragmentShader(EruptionMath::Color color)
 
 void BasicShader::SetupBeforeRendering()
 {
+	EruptionMath::mat4 matWorld;
+
 	sinz = fastsin(time * 0.5f);
 	cosz = fastcos(time * 0.5f);
 
@@ -53,5 +53,7 @@ void BasicShader::SetupBeforeRendering()
 
 	z = z.RotateZ(sinz, cosz);
 	x = x.RotateX(sinx, cosx);
+
+	rotationMat = matWorld.Matrix_MultiplyMatrix(z, x);
 }
 

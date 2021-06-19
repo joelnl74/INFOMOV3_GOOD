@@ -133,7 +133,13 @@ namespace EruptionMath
 	};
 	struct mat4
 	{
-		float m4[4][4] = { 0 };
+		float m4[4][4] = 
+		{  
+			1, 0, 0, 0,
+			0, 1, 0, 0,
+			0, 0, 1, 0,
+			0, 0, 0, 1
+		};
 
 		__forceinline mat4 Matrix_MultiplyMatrix(mat4 &m1, mat4 &m2)
 		{
