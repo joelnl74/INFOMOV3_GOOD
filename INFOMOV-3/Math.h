@@ -167,27 +167,29 @@ namespace EruptionMath
 
 			return projection;
 		};
-		__forceinline mat4 RotateZ(float fAngleRad)
+		__forceinline mat4 RotateZ(float sin, float cos)
 		{
 			mat4 matRotZ;
+
 			// Rotation Z
-			matRotZ.m4[0][0] = cosf(fAngleRad);
-			matRotZ.m4[0][1] = sinf(fAngleRad);
-			matRotZ.m4[1][0] = -sinf(fAngleRad);
-			matRotZ.m4[1][1] = cosf(fAngleRad);
+			matRotZ.m4[0][0] = cos;
+			matRotZ.m4[0][1] = sin;
+			matRotZ.m4[1][0] = -sin;
+			matRotZ.m4[1][1] = cos;
 			matRotZ.m4[2][2] = 1.0f;
 			matRotZ.m4[3][3] = 1.0f;
 			return matRotZ;
 		}
-		__forceinline mat4 RotateX(float fAngleRad)
+		__forceinline mat4 RotateX(float sin, float cos)
 		{
 			mat4 matRotX;
+
 			// Rotation X
 			matRotX.m4[0][0] = 1.0f;
-			matRotX.m4[1][1] = cosf(fAngleRad);
-			matRotX.m4[1][2] = sinf(fAngleRad);
-			matRotX.m4[2][1] = -sinf(fAngleRad);
-			matRotX.m4[2][2] = cosf(fAngleRad);
+			matRotX.m4[1][1] = cos;
+			matRotX.m4[1][2] = sin;
+			matRotX.m4[2][1] = -sin;
+			matRotX.m4[2][2] = cos;
 			matRotX.m4[3][3] = 1.0f;
 
 			return matRotX;

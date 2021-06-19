@@ -1,6 +1,6 @@
 ﻿#include "Rasterizer.h"
 #include <algorithm>
-#include <thread>
+
 Rasterizer::Rasterizer(SDL_Surface *_surface)
 {
 	surface = _surface;

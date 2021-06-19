@@ -1,10 +1,13 @@
+#pragma once
 #include "BasicShader.h"
-#include "Math.h"
 
 BasicShader::BasicShader()
 {
 	//Create a projection matrix
-	projectionMatirx =  projectionMatirx.ProjectionMatirx(0.1f, 1000.0f, 90.0f, 800, 600);;
+	projectionMatirx =  projectionMatirx.ProjectionMatirx(0.1f, 1000.0f, 90.0f, 800, 600);
+	time = 0;
+
+	SetupCosSineTable();
 }
 
 
@@ -17,8 +20,9 @@ EruptionMath::vec3 BasicShader::VertexShader(EruptionMath::vec3 vec3)
 	EruptionMath::mat4 matTans, matWorld;
 
 	matTans = matTans.Matirx_Translation(0, 0, 12.0f);
-	z = z.RotateZ(time * 0.5f); 
-	x = x.RotateX(time);
+
+	z = z.RotateZ(sinz, cosz);
+	x = x.RotateX(sinx, cosx);
 
 	//Matrix multiplication
 	matWorld = matWorld.Identity();

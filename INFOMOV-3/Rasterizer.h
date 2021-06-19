@@ -1,6 +1,6 @@
 #pragma once
-#include "SDL.h"
 #include "EdgeEquation.h"
+#include "SDL.h"
 #include <vector>
 
 enum RasterizerMode
