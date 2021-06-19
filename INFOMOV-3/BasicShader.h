@@ -18,16 +18,12 @@ public:
 	 EruptionMath::Color FragmentShader(EruptionMath::Color color);
 
 	void SetTime(float x) { 
-		time = x; 
+		time = x;
 
-		sinz = fastsin(time * 0.5f);
-		cosz = fastcos(time * 0.5f);
-
-		sinx = fastsin(time);
-		cosx = fastcos(time);
+		SetupBeforeRendering();
 	};
 	void SetPosition(EruptionMath::vec3 x) { pos = x; };
-
+	void SetupBeforeRendering();
 	float fastcos(float n)
 	{
 		float f = n * HALF_MAX_CIRCLE_ANGLE / PI;
@@ -54,7 +50,7 @@ public:
 
 	float time;
 	EruptionMath::vec3 pos;
-	EruptionMath::mat4 rot, z, x, projectionMatirx;
+	EruptionMath::mat4 rot, z, x, projectionMatirx, matTans;
 	float fast_cossin_table[MAX_CIRCLE_ANGLE]; // Declare table of fast cosinus and sinus
 
 private:

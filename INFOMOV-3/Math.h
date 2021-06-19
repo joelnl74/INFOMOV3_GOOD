@@ -138,13 +138,112 @@ namespace EruptionMath
 		__forceinline mat4 Matrix_MultiplyMatrix(mat4 &m1, mat4 &m2)
 		{
 			// Changed reorder loop Increase FPS by one.
-			mat4 matrix{};
-			for (int r = 0; r < 4; r++)
-				for (int c = 0; c < 4; c++)
-					matrix.m4[r][c] = m1.m4[r][0] * m2.m4[0][c] + m1.m4[r][1] * m2.m4[1][c] + m1.m4[r][2] * m2.m4[2][c] + m1.m4[r][3] * m2.m4[3][c];
+			// mat4 matrix{};
+
+			// for (int r = 0; r < 4; r++)
+			//	for (int c = 0; c < 4; c++)
+			//		matrix.m4[r][c] = m1.m4[r][0] * m2.m4[0][c] + m1.m4[r][1] * m2.m4[1][c] + m1.m4[r][2] * m2.m4[2][c] + m1.m4[r][3] * m2.m4[3][c];
 			// Changed reorder loop Increase FPS by one.
 
-			return matrix;
+			mat4 result{};
+
+			// Put Matrix 1 in SIMD VARS
+			__m128 i0 = { m1.m4[0][0], m1.m4[1][0], m1.m4[2][0], m1.m4[3][0] };
+			__m128 i1 = { m1.m4[0][1], m1.m4[1][1], m1.m4[2][1], m1.m4[3][1] };
+			__m128 i2 = { m1.m4[0][2], m1.m4[1][2], m1.m4[2][2], m1.m4[3][2] };
+			__m128 i3 = { m1.m4[0][3], m1.m4[1][3], m1.m4[2][3], m1.m4[3][3] };
+
+			// Put Matrix 2 in SIMD VARS
+			__m128 i20 = { m2.m4[0][0], m2.m4[1][0], m2.m4[2][0], m2.m4[3][0] };
+			__m128 i21 = { m2.m4[0][1], m2.m4[1][1], m2.m4[2][1], m2.m4[3][1] };
+			__m128 i22 = { m2.m4[0][2], m2.m4[1][2], m2.m4[2][2], m2.m4[3][2] };
+			__m128 i23 = { m2.m4[0][3], m2.m4[1][3], m2.m4[2][3], m2.m4[3][3] };
+
+			{
+				__m128 e0 = _mm_shuffle_ps(i20, i20, _MM_SHUFFLE(0, 0, 0, 0));
+				__m128 e1 = _mm_shuffle_ps(i20, i20, _MM_SHUFFLE(1, 1, 1, 1));
+				__m128 e2 = _mm_shuffle_ps(i20, i20, _MM_SHUFFLE(2, 2, 2, 2));
+				__m128 e3 = _mm_shuffle_ps(i20, i20, _MM_SHUFFLE(3, 3, 3, 3));
+
+				__m128 m0 = _mm_mul_ps(i0, e0);
+				__m128 m1 = _mm_mul_ps(i1, e1);
+				__m128 m2 = _mm_mul_ps(i2, e2);
+				__m128 m3 = _mm_mul_ps(i3, e3);
+
+				__m128 a0 = _mm_add_ps(m0, m1);
+				__m128 a1 = _mm_add_ps(m2, m3);
+				__m128 a2 = _mm_add_ps(a0, a1);
+
+				result.m4[0][0] = a2.m128_f32[0];
+				result.m4[1][0] = a2.m128_f32[1];
+				result.m4[2][0] = a2.m128_f32[2];
+				result.m4[3][0] = a2.m128_f32[3];
+			}
+
+			{
+				__m128 e0 = _mm_shuffle_ps(i21, i21, _MM_SHUFFLE(0, 0, 0, 0));
+				__m128 e1 = _mm_shuffle_ps(i21, i21, _MM_SHUFFLE(1, 1, 1, 1));
+				__m128 e2 = _mm_shuffle_ps(i21, i21, _MM_SHUFFLE(2, 2, 2, 2));
+				__m128 e3 = _mm_shuffle_ps(i21, i21, _MM_SHUFFLE(3, 3, 3, 3));
+
+				__m128 m0 = _mm_mul_ps(i0, e0);
+				__m128 m1 = _mm_mul_ps(i1, e1);
+				__m128 m2 = _mm_mul_ps(i2, e2);
+				__m128 m3 = _mm_mul_ps(i3, e3);
+
+				__m128 a0 = _mm_add_ps(m0, m1);
+				__m128 a1 = _mm_add_ps(m2, m3);
+				__m128 a2 = _mm_add_ps(a0, a1);
+
+				result.m4[0][1] = a2.m128_f32[0];
+				result.m4[1][1] = a2.m128_f32[1];
+				result.m4[2][1] = a2.m128_f32[2];
+				result.m4[3][1] = a2.m128_f32[3];
+			}
+
+			{
+				__m128 e0 = _mm_shuffle_ps(i22, i22, _MM_SHUFFLE(0, 0, 0, 0));
+				__m128 e1 = _mm_shuffle_ps(i22, i22, _MM_SHUFFLE(1, 1, 1, 1));
+				__m128 e2 = _mm_shuffle_ps(i22, i22, _MM_SHUFFLE(2, 2, 2, 2));
+				__m128 e3 = _mm_shuffle_ps(i22, i22, _MM_SHUFFLE(3, 3, 3, 3));
+
+				__m128 m0 = _mm_mul_ps(i0, e0);
+				__m128 m1 = _mm_mul_ps(i1, e1);
+				__m128 m2 = _mm_mul_ps(i2, e2);
+				__m128 m3 = _mm_mul_ps(i3, e3);
+
+				__m128 a0 = _mm_add_ps(m0, m1);
+				__m128 a1 = _mm_add_ps(m2, m3);
+				__m128 a2 = _mm_add_ps(a0, a1);
+
+				result.m4[0][2] = a2.m128_f32[0];
+				result.m4[1][2] = a2.m128_f32[1];
+				result.m4[2][2] = a2.m128_f32[2];
+				result.m4[3][2] = a2.m128_f32[3];
+			}
+
+			{
+				__m128 e0 = _mm_shuffle_ps(i23, i23, _MM_SHUFFLE(0, 0, 0, 0));
+				__m128 e1 = _mm_shuffle_ps(i23, i23, _MM_SHUFFLE(1, 1, 1, 1));
+				__m128 e2 = _mm_shuffle_ps(i23, i23, _MM_SHUFFLE(2, 2, 2, 2));
+				__m128 e3 = _mm_shuffle_ps(i23, i23, _MM_SHUFFLE(3, 3, 3, 3));
+
+				__m128 m0 = _mm_mul_ps(i0, e0);
+				__m128 m1 = _mm_mul_ps(i1, e1);
+				__m128 m2 = _mm_mul_ps(i2, e2);
+				__m128 m3 = _mm_mul_ps(i3, e3);
+
+				__m128 a0 = _mm_add_ps(m0, m1);
+				__m128 a1 = _mm_add_ps(m2, m3);
+				__m128 a2 = _mm_add_ps(a0, a1);
+
+				result.m4[0][3] = a2.m128_f32[0];
+				result.m4[1][3] = a2.m128_f32[1];
+				result.m4[2][3] = a2.m128_f32[2];
+				result.m4[3][3] = a2.m128_f32[3];
+			}
+
+			return result;
 		}
 
 		//Create a projection matrix
