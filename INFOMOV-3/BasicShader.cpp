@@ -19,11 +19,9 @@ BasicShader::~BasicShader()
 EruptionMath::vec3 BasicShader::VertexShader(EruptionMath::vec3 vec3)
 {
 	EruptionMath::vec3 transformed, projected;
-	EruptionMath::mat4 matWorld;
+	EruptionMath::mat4 matWorld = rotationMat;
 
 	//Matrix multiplication
-	matWorld = matWorld.Matrix_MultiplyMatrix(rotationMat, matTans);
-
 	transformed = matWorld.MulitiplyMatrixVector(vec3, matWorld);
 	projected = matWorld.MulitiplyMatrixVector(transformed, projectionMatirx);
 	
@@ -55,5 +53,6 @@ void BasicShader::SetupBeforeRendering()
 	x = x.RotateX(sinx, cosx);
 
 	rotationMat = matWorld.Matrix_MultiplyMatrix(z, x);
+	rotationMat = matWorld.Matrix_MultiplyMatrix(rotationMat, matTans);
 }
 
