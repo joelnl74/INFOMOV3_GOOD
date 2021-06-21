@@ -17,6 +17,9 @@ void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, EruptionMath::
 
 	std::vector<EruptionMath::Triangle> toDraw;
 
+	unsigned int faceColor = color.toRGB();
+	unsigned int linesColor = lineColor.toRGB();
+
 	// CHANGED CAN BE SET ONCE
 	if (shader != 0)
 	{
@@ -53,7 +56,7 @@ void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, EruptionMath::
 	for (auto &ver : toDraw)
 	{
 	// CHANGED TO REFERENCE.
-		raterizer.DrawTriangle(ver, color.toRGB(), lineColor);
+		raterizer.DrawTriangle(ver, faceColor, linesColor);
 	}
 	// Changed move this code from inside the loop to outside the loop, more cache friendly
 }

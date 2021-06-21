@@ -132,16 +132,13 @@ void Rasterizer::DrawLine(EruptionMath::vec3 vt1, EruptionMath::vec3 vt2, Uint32
 		}
 	}
 }
-void Rasterizer::DrawTriangle(EruptionMath::Triangle tri, unsigned int color, EruptionMath::Color colorLine)
+void Rasterizer::DrawTriangle(EruptionMath::Triangle tri, unsigned int color, unsigned int colorLine)
 {
 	if (mode == RasterizerMode::Line || mode == RasterizerMode::Line_And_Fill)
 	{
-		// Change Cache conversion, because we use it 3 times
-		unsigned int lineColor = colorLine.toRGB();
-
-		DrawLine(tri.p[0], tri.p[1], lineColor);
-		DrawLine(tri.p[1], tri.p[2], lineColor);
-		DrawLine(tri.p[2], tri.p[0], lineColor);
+		DrawLine(tri.p[0], tri.p[1], colorLine);
+		DrawLine(tri.p[1], tri.p[2], colorLine);
+		DrawLine(tri.p[2], tri.p[0], colorLine);
 		// End change
 	}
 

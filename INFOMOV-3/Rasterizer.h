@@ -17,7 +17,7 @@ public:
 	Uint32 GetPixel(int x, int y);
 	void PutPixel(int x, int y, Uint32 pixel);
 	void DrawLine(EruptionMath::vec3 vt1, EruptionMath::vec3 vt2, Uint32 color);
-	void DrawTriangle(EruptionMath::Triangle, unsigned int color, EruptionMath::Color colorLine);
+	void DrawTriangle(EruptionMath::Triangle, unsigned int color, unsigned int colorLine);
 	RasterizerMode mode;
 private:
 	SDL_Surface *surface;
