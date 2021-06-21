@@ -122,7 +122,6 @@ namespace EruptionMath
 	struct  Triangle
 	{
 		vec3 p[3];
-		Color color;
 
 		Triangle()
 		{

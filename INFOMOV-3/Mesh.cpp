@@ -36,8 +36,6 @@ void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, EruptionMath::
 		triangle.p[1] = shader->VertexShader(tri.p[1]);
 		triangle.p[2] = shader->VertexShader(tri.p[2]);
 
-		triangle.color = shader->FragmentShader(color).toRGB();
-
 		toDraw.push_back(triangle);
 	}
 
@@ -55,7 +53,7 @@ void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, EruptionMath::
 	for (auto &ver : toDraw)
 	{
 	// CHANGED TO REFERENCE.
-		raterizer.DrawTriangle(ver, ver.color.toRGB(), lineColor);
+		raterizer.DrawTriangle(ver, color.toRGB(), lineColor);
 	}
 	// Changed move this code from inside the loop to outside the loop, more cache friendly
 }
