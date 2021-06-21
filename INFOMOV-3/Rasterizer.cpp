@@ -49,33 +49,10 @@ void Rasterizer::PutPixel(int x, int y, Uint32 pixel)
 
 	if (x < 800 && x >= 0 && y < 600 && y >= 0)
 	{
-		switch (bpp) {
-		case 1:
-			*p = pixel;
-			break;
-
-		case 2:
-			*(Uint16 *)p = pixel;
-			break;
-
-		case 3:
-			if (SDL_BYTEORDER == SDL_BIG_ENDIAN) {
-				p[0] = (pixel >> 16) & 0xff;
-				p[1] = (pixel >> 8) & 0xff;
-				p[2] = pixel & 0xff;
-			}
-			else {
-				p[0] = pixel & 0xff;
-				p[1] = (pixel >> 8) & 0xff;
-				p[2] = (pixel >> 16) & 0xff;
-			}
-			break;
-
-		case 4:
-			*(Uint32 *)p = pixel;
-			break;
-		}
+		return;
 	}
+
+	*(Uint32*)p = pixel;
 }
 
 
@@ -105,28 +82,34 @@ void Rasterizer::DrawLine(EruptionMath::vec3 vt1, EruptionMath::vec3 vt2, Uint32
 
 		// draw line in terms of y slope
 		float slope = ydiff / xdiff;
-		for (float x = xmin; x <= xmax; x += 1.0f) {
+		
+		for (float x = xmin; x <= xmax; x += 1.0f) \
+		{
 			float y = vt1.y + ((x - vt1.x) * slope);
 			PutPixel(x, y, color);
 		}
 	}
-	else {
+	else 
+	{
 		float ymin, ymax;
 
 		// set ymin to the lower y value given
 		// and ymax to the higher value
-		if (vt1.y < vt2.y) {
+		if (vt1.y < vt2.y) 
+		{
 			ymin = vt1.y;
 			ymax = vt2.y;
 		}
-		else {
+		else 
+		{
 			ymin = vt2.y;
 			ymax = vt1.y;
 		}
 
 		// draw line in terms of x slope
 		float slope = xdiff / ydiff;
-		for (float y = ymin; y <= ymax; y += 1.0f) {
+		for (float y = ymin; y <= ymax; y += 1.0f) 
+		{
 			float x = vt1.x + ((y - vt1.y) * slope);
 			PutPixel(x, y, color);
 		}
@@ -160,10 +143,11 @@ void Rasterizer::DrawTriangle(EruptionMath::Triangle tri, unsigned int color, un
 		for (float x = minX + 0.5f, xm = maxX + 0.5f; x <= xm; x += 1.0f)
 			for (float y = minY + 0.5f, ym = maxY + 0.5f; y <= ym; y += 1.0f)
 			{
-				if (e0.test(x, y) && e1.test(x, y) && e2.test(x, y))
-				{
-					PutPixel(x, y, color);
-				}
+				if (!e0.test(x, y)) continue;
+				if (!e2.test(x, y)) continue;
+				if (!e1.test(x, y)) continue;
+
+				PutPixel(x, y, color);
 			}
 	}
 }
