@@ -10,11 +10,13 @@ Mesh::Mesh(EruptionMath::vec3 vposition, std::string filename)
 
 	toDraw.reserve(verticies.size());
 
+	// CHANGED PRE ALLOCATE
 	for (int i = 0; i < verticies.size(); i++)
 	{
 		EruptionMath::Triangle tri;
 		toDraw.push_back(tri);
 	}
+	// ENDCHANGE
 }
 Mesh::~Mesh()
 {
@@ -38,7 +40,6 @@ void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, EruptionMath::
 	// CHANGED TO REFERNECE SO WE DONT MAKE A COPY
 	for (int i = 0; i < verticies.size(); i++)
 	{
-		// ENDCHANGE
 		auto& tri = verticies[i];
 
 		EruptionMath::Triangle &triangle = toDraw[i];
@@ -51,6 +52,7 @@ void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, EruptionMath::
 		triangle.p[1] = p1;
 		triangle.p[2] = p2;
 	}
+	// ENDCHANGE
 
 	// Changed move this code from inside the loop to outside the loop, more cache friendly
 	// Painters algorithm what should be drawn last, so you see those pixels
