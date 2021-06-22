@@ -9,7 +9,7 @@
 // Threading related libs
 #include "precomp.h"
 
-constexpr auto THREADCOUNT = 6;
+constexpr auto THREADCOUNT = 8;
 
 // Timing variables
 unsigned int old_time, current_time = 0;
@@ -76,7 +76,8 @@ unsigned long __stdcall workerthread(LPVOID param)
 			while (SDL_PollEvent(&event))
 				HandleEvent(event);
 
-			switch (task) {
+			meshes.at(task).Draw(*rasterizer, color1, color2, ftime);
+			/*switch (task) {
 			case 0:
 				meshes.at(0).Draw(*rasterizer, color1, color2, ftime);
 				break;
@@ -95,7 +96,7 @@ unsigned long __stdcall workerthread(LPVOID param)
 			case 5:
 				meshes.at(5).Draw(*rasterizer, color1, color2, ftime);;
 				break;
-			}
+			}*/
 		}
 		SetEvent(doneSignal[threadId]);
 	}
@@ -151,7 +152,7 @@ int main(int argc, char* argv[])
 			current_ticks = clock();
 			// END FPS
 
-			remaining = THREADCOUNT; // Should replace with tiles
+			remaining = meshes.size(); // Should replace with tiles
 			for (int i = 0; i < THREADCOUNT; i++) SetEvent(goSignal[i]);
 			WaitForMultipleObjects(THREADCOUNT, doneSignal, true, INFINITE);
 
