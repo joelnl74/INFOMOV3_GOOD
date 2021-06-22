@@ -7,6 +7,14 @@ Mesh::Mesh(EruptionMath::vec3 vposition, std::string filename)
 	shader = new BasicShader();
 	ObjParser parser;
 	verticies = parser.LoadObj(filename);
+
+	toDraw.reserve(verticies.size());
+
+	for (int i = 0; i < verticies.size(); i++)
+	{
+		EruptionMath::Triangle tri;
+		toDraw.push_back(tri);
+	}
 }
 Mesh::~Mesh()
 {
@@ -14,8 +22,6 @@ Mesh::~Mesh()
 void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, EruptionMath::Color lineColor, float time)
 {
 	fTheta += 1.0f * time;
-
-	std::vector<EruptionMath::Triangle> toDraw;
 
 	unsigned int faceColor = color.toRGB();
 	unsigned int linesColor = lineColor.toRGB();
@@ -30,16 +36,20 @@ void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, EruptionMath::
 	// END CHANGE
 
 	// CHANGED TO REFERNECE SO WE DONT MAKE A COPY
-	for (auto &tri : verticies)
+	for (int i = 0; i < verticies.size(); i++)
 	{
-	// ENDCHANGE
-		EruptionMath::Triangle triangle;
-		
-		triangle.p[0] = shader->VertexShader(tri.p[0]);
-		triangle.p[1] = shader->VertexShader(tri.p[1]);
-		triangle.p[2] = shader->VertexShader(tri.p[2]);
+		// ENDCHANGE
+		auto& tri = verticies[i];
 
-		toDraw.push_back(triangle);
+		EruptionMath::Triangle &triangle = toDraw[i];
+
+		EruptionMath::vec3 p0 = shader->VertexShader(tri.p[0]);
+		EruptionMath::vec3 p1 = shader->VertexShader(tri.p[1]);
+		EruptionMath::vec3 p2 = shader->VertexShader(tri.p[2]);
+
+		triangle.p[0] = p0;
+		triangle.p[1] = p1;
+		triangle.p[2] = p2;
 	}
 
 	// Changed move this code from inside the loop to outside the loop, more cache friendly
@@ -51,6 +61,7 @@ void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, EruptionMath::
 		
 		return z1 > z2;
 	});
+
 
 	// CHANGED TO REFERENCE.
 	for (auto &ver : toDraw)

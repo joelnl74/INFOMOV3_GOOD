@@ -15,6 +15,7 @@ public:
 	EruptionMath::vec3 position;
 private:
 	float fTheta;
+	std::vector<EruptionMath::Triangle> toDraw;
 
 	
 };

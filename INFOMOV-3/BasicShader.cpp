@@ -28,6 +28,7 @@ EruptionMath::vec3 BasicShader::VertexShader(EruptionMath::vec3 vec3)
 	projected = projected / projected.w;
 	//set into screen space
 	projected.x += 1; projected.y += 1;
+
 	//change position of the object
 	projected.x *= pos.x;
 	projected.y *= pos.y;
