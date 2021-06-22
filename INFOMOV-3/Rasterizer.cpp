@@ -47,10 +47,10 @@ void Rasterizer::PutPixel(int x, int y, Uint32 pixel)
 	/* Here p is the address to the pixel we want to set */
 	Uint8 *p = (Uint8 *)surface->pixels + y * surface->pitch + x * bpp;
 
-	if (x > 800) return;
-	if (y > 800) return;
-	if (x < 0) return;
-	if (y < 0) return;
+	if (x >= 800) return;
+	if (y >= 800) return;
+	if (x <= 0) return;
+	if (y <= 0) return;
 
 	*(Uint32*)p = pixel;
 }
