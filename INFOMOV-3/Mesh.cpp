@@ -58,9 +58,11 @@ void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, EruptionMath::
 	// Painters algorithm what should be drawn last, so you see those pixels
 	std::sort(toDraw.begin(), toDraw.end(), [](EruptionMath::Triangle& tri1, EruptionMath::Triangle& tri2)
 	{
-		float z1 = (tri1.p[0].z + tri1.p[1].z + tri1.p[2].z) / 3.0f;
-		float z2 = (tri2.p[0].z + tri2.p[1].z + tri2.p[2].z) / 3.0f;
-		
+		// CHANGE Removed / from code
+		float z1 = (tri1.p[0].z + tri1.p[1].z + tri1.p[2].z);
+		float z2 = (tri2.p[0].z + tri2.p[1].z + tri2.p[2].z);
+		// ENDCHANGE
+
 		return z1 > z2;
 	});
 
