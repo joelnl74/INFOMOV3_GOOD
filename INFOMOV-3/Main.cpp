@@ -9,7 +9,7 @@
 // Threading related libs
 #include "precomp.h"
 
-constexpr auto THREADCOUNT = 8;
+constexpr auto THREADCOUNT = 12;
 
 // Timing variables
 unsigned int old_time, current_time = 0;
@@ -107,13 +107,21 @@ int main(int argc, char* argv[])
 	//clApplication->InitCL();
 
 	rasterizer->mode = RasterizerMode::Line_And_Fill;
-	Mesh bunny1(EruptionMath::vec3(400.0f, 450.0f, 0.0f), "Resources/OBJ/bunny.obj" );
-	Mesh bunny2(EruptionMath::vec3(200.0f, 450.0f, 0.0f), "Resources/OBJ/bunny.obj");
-	Mesh bunny3(EruptionMath::vec3(600.0f, 450.0f, 0.0f), "Resources/OBJ/bunny.obj");
+	Mesh bunny1(EruptionMath::vec3(400.0f, 100.0f, 0.0f), "Resources/OBJ/bunny.obj" );
+	Mesh bunny2(EruptionMath::vec3(200.0f, 100.0f, 0.0f), "Resources/OBJ/bunny.obj");
+	Mesh bunny3(EruptionMath::vec3(600.0f, 100.0f, 0.0f), "Resources/OBJ/bunny.obj");
 
-	Mesh bunny4(EruptionMath::vec3(400.0f, 150.0f, 0.0f), "Resources/OBJ/bunny.obj");
-	Mesh bunny5(EruptionMath::vec3(200.0f, 150.0f, 0.0f), "Resources/OBJ/bunny.obj");
-	Mesh bunny6(EruptionMath::vec3(600.0f, 150.0f, 0.0f), "Resources/OBJ/bunny.obj");
+	Mesh bunny4(EruptionMath::vec3(400.0f, 200.0f, 0.0f), "Resources/OBJ/bunny.obj");
+	Mesh bunny5(EruptionMath::vec3(200.0f, 200.0f, 0.0f), "Resources/OBJ/bunny.obj");
+	Mesh bunny6(EruptionMath::vec3(600.0f, 200.0f, 0.0f), "Resources/OBJ/bunny.obj");
+
+	Mesh bunny7(EruptionMath::vec3(400.0f, 300.0f, 0.0f), "Resources/OBJ/bunny.obj");
+	Mesh bunny8(EruptionMath::vec3(200.0f, 300.0f, 0.0f), "Resources/OBJ/bunny.obj");
+	Mesh bunny9(EruptionMath::vec3(600.0f, 300.0f, 0.0f), "Resources/OBJ/bunny.obj");
+
+	Mesh bunny10(EruptionMath::vec3(400.0f, 400.0f, 0.0f), "Resources/OBJ/bunny.obj");
+	Mesh bunny11(EruptionMath::vec3(200.0f, 400.0f, 0.0f), "Resources/OBJ/bunny.obj");
+	Mesh bunny12(EruptionMath::vec3(600.0f, 400.0f, 0.0f), "Resources/OBJ/bunny.obj");
 
 	meshes.push_back(bunny1);
 	meshes.push_back(bunny2);
@@ -121,6 +129,13 @@ int main(int argc, char* argv[])
 	meshes.push_back(bunny4);
 	meshes.push_back(bunny5);
 	meshes.push_back(bunny6);
+
+	meshes.push_back(bunny7);
+	meshes.push_back(bunny8);
+	meshes.push_back(bunny9);
+	meshes.push_back(bunny10);
+	meshes.push_back(bunny11);
+	meshes.push_back(bunny12);
 
 	// Worker threads
 	static DWORD threadId[THREADCOUNT];
