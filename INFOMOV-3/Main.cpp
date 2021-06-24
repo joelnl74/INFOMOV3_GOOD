@@ -76,7 +76,7 @@ unsigned long __stdcall workerthread(LPVOID param)
 			while (SDL_PollEvent(&event))
 				HandleEvent(event);
 
-			meshes.at(task)->Draw(*rasterizer, color1, color2, ftime);
+			meshes.at(task)->Draw(*rasterizer, color1, color1, ftime);
 		}
 		SetEvent(doneSignal[threadId]);
 	}

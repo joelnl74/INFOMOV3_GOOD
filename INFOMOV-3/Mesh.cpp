@@ -88,14 +88,28 @@ void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, EruptionMath::
 		auto& depth2 = depthMap[index2];
 		auto& depth3 = depthMap[index3];
 
-		if (depth1 > vertex1.z || depth2 > vertex2.z || depth3 > vertex3.z)
+		if (vertex1.z < depth1)
 		{
+			depth1 = vertex1.z;
 			raterizer.DrawTriangle(ver, faceColor, linesColor);
 
-			depth1 = vertex1.z;
-			depth2 = vertex2.z;
-			depth3 = vertex3.z;
+			continue;
+		}
 
+		if (vertex2.z < depth2)
+		{
+			depth2 = vertex2.z;
+			raterizer.DrawTriangle(ver, faceColor, linesColor);
+
+			continue;
+		}
+
+		if (vertex3.z < depth3)
+		{
+			depth3 = vertex3.z;
+			raterizer.DrawTriangle(ver, faceColor, linesColor);
+
+			continue;
 		}
 	}
 	// Changed move this code from inside the loop to outside the loop, more cache friendly
