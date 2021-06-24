@@ -16,7 +16,6 @@ public:
 private:
 	float fTheta;
 	std::vector<EruptionMath::Triangle> toDraw;
-
-	
+	unsigned int depthMap[800 * 600];
 };
 

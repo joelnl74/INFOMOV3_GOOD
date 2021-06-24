@@ -17,6 +17,15 @@ Mesh::Mesh(EruptionMath::vec3 vposition, std::string filename)
 		toDraw.push_back(tri);
 	}
 	// ENDCHANGE
+
+	for (int i = 0; i < 800; i++)
+	{
+		for (int j = 0; j < 600; j++)
+		{
+			depthMap[i + 800 * j] = INT_MAX;
+		}
+	}
+
 }
 Mesh::~Mesh()
 {
@@ -37,6 +46,14 @@ void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, EruptionMath::
 	}
 	// END CHANGE
 
+	for (int i = 0; i < 800; i++)
+	{
+		for (int j = 0; j < 600; j++)
+		{
+			depthMap[i + 800 * j] = INT_MAX;
+		}
+	}
+
 	// CHANGED TO REFERNECE SO WE DONT MAKE A COPY
 	for (int i = 0; i < verticies.size(); i++)
 	{
@@ -54,24 +71,32 @@ void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, EruptionMath::
 	}
 	// ENDCHANGE
 
-	// Changed move this code from inside the loop to outside the loop, more cache friendly
-	// Painters algorithm what should be drawn last, so you see those pixels
-	std::sort(toDraw.begin(), toDraw.end(), [](EruptionMath::Triangle& tri1, EruptionMath::Triangle& tri2)
-	{
-		// CHANGE Removed / from code
-		float z1 = (tri1.p[0].z + tri1.p[1].z + tri1.p[2].z);
-		float z2 = (tri2.p[0].z + tri2.p[1].z + tri2.p[2].z);
-		// ENDCHANGE
-
-		return z1 > z2;
-	});
-
 
 	// CHANGED TO REFERENCE.
 	for (auto &ver : toDraw)
 	{
 	// CHANGED TO REFERENCE.
-		raterizer.DrawTriangle(ver, faceColor, linesColor);
+		auto& vertex1 = ver.p[0];
+		auto& vertex2 = ver.p[1];
+		auto& vertex3 = ver.p[2];
+
+		int index1 = vertex1.x + 800 * vertex1.y;
+		int index2 = vertex2.x + 800 * vertex2.y;
+		int index3 = vertex3.x + 800 * vertex3.y;
+
+		auto& depth1 = depthMap[index1];
+		auto& depth2 = depthMap[index2];
+		auto& depth3 = depthMap[index3];
+
+		if (depth1 > vertex1.z || depth2 > vertex2.z || depth3 > vertex3.z)
+		{
+			raterizer.DrawTriangle(ver, faceColor, linesColor);
+
+			depth1 = vertex1.z;
+			depth2 = vertex2.z;
+			depth3 = vertex3.z;
+
+		}
 	}
 	// Changed move this code from inside the loop to outside the loop, more cache friendly
 }

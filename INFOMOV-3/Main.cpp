@@ -24,7 +24,7 @@ Window* window = new Window();
 SDL_Surface* screen = SDL_GetWindowSurface(window->window);
 CLApplication* clApplication = new CLApplication();
 Rasterizer* rasterizer = new Rasterizer(screen);
-static std::vector<Mesh> meshes;
+static std::vector<Mesh*> meshes;
 static bool g_Running = true;
 
 EruptionMath::Color color1(0, 255, 0);
@@ -76,27 +76,7 @@ unsigned long __stdcall workerthread(LPVOID param)
 			while (SDL_PollEvent(&event))
 				HandleEvent(event);
 
-			meshes.at(task).Draw(*rasterizer, color1, color2, ftime);
-			/*switch (task) {
-			case 0:
-				meshes.at(0).Draw(*rasterizer, color1, color2, ftime);
-				break;
-			case 1:
-				meshes.at(1).Draw(*rasterizer, color1, color2, ftime);
-				break;
-			case 2:
-				meshes.at(2).Draw(*rasterizer, color1, color2, ftime);
-				break;
-			case 3:
-				meshes.at(3).Draw(*rasterizer, color1, color2, ftime);;
-				break;
-			case 4:
-				meshes.at(4).Draw(*rasterizer, color1, color2, ftime);;
-				break;
-			case 5:
-				meshes.at(5).Draw(*rasterizer, color1, color2, ftime);;
-				break;
-			}*/
+			meshes.at(task)->Draw(*rasterizer, color1, color2, ftime);
 		}
 		SetEvent(doneSignal[threadId]);
 	}
@@ -107,21 +87,21 @@ int main(int argc, char* argv[])
 	//clApplication->InitCL();
 
 	rasterizer->mode = RasterizerMode::Line_And_Fill;
-	Mesh bunny1(EruptionMath::vec3(400.0f, 100.0f, 0.0f), "Resources/OBJ/bunny.obj" );
-	Mesh bunny2(EruptionMath::vec3(200.0f, 100.0f, 0.0f), "Resources/OBJ/bunny.obj");
-	Mesh bunny3(EruptionMath::vec3(600.0f, 100.0f, 0.0f), "Resources/OBJ/bunny.obj");
+	Mesh *bunny1 = new Mesh(EruptionMath::vec3(400.0f, 100.0f, 0.0f), "Resources/OBJ/bunny.obj" );
+	Mesh *bunny2 = new Mesh(EruptionMath::vec3(200.0f, 100.0f, 0.0f), "Resources/OBJ/bunny.obj");
+	Mesh *bunny3 = new Mesh(EruptionMath::vec3(600.0f, 100.0f, 0.0f), "Resources/OBJ/bunny.obj");
 
-	Mesh bunny4(EruptionMath::vec3(400.0f, 200.0f, 0.0f), "Resources/OBJ/bunny.obj");
-	Mesh bunny5(EruptionMath::vec3(200.0f, 200.0f, 0.0f), "Resources/OBJ/bunny.obj");
-	Mesh bunny6(EruptionMath::vec3(600.0f, 200.0f, 0.0f), "Resources/OBJ/bunny.obj");
+	Mesh *bunny4 = new Mesh(EruptionMath::vec3(400.0f, 200.0f, 0.0f), "Resources/OBJ/bunny.obj");
+	Mesh *bunny5 = new Mesh(EruptionMath::vec3(200.0f, 200.0f, 0.0f), "Resources/OBJ/bunny.obj");
+	Mesh *bunny6 = new Mesh(EruptionMath::vec3(600.0f, 200.0f, 0.0f), "Resources/OBJ/bunny.obj");
 
-	Mesh bunny7(EruptionMath::vec3(400.0f, 300.0f, 0.0f), "Resources/OBJ/bunny.obj");
-	Mesh bunny8(EruptionMath::vec3(200.0f, 300.0f, 0.0f), "Resources/OBJ/bunny.obj");
-	Mesh bunny9(EruptionMath::vec3(600.0f, 300.0f, 0.0f), "Resources/OBJ/bunny.obj");
+	Mesh *bunny7 = new Mesh(EruptionMath::vec3(400.0f, 300.0f, 0.0f), "Resources/OBJ/bunny.obj");
+	Mesh *bunny8 = new Mesh(EruptionMath::vec3(200.0f, 300.0f, 0.0f), "Resources/OBJ/bunny.obj");
+	Mesh *bunny9 = new Mesh(EruptionMath::vec3(600.0f, 300.0f, 0.0f), "Resources/OBJ/bunny.obj");
 
-	Mesh bunny10(EruptionMath::vec3(400.0f, 400.0f, 0.0f), "Resources/OBJ/bunny.obj");
-	Mesh bunny11(EruptionMath::vec3(200.0f, 400.0f, 0.0f), "Resources/OBJ/bunny.obj");
-	Mesh bunny12(EruptionMath::vec3(600.0f, 400.0f, 0.0f), "Resources/OBJ/bunny.obj");
+	Mesh *bunny10 = new Mesh(EruptionMath::vec3(400.0f, 400.0f, 0.0f), "Resources/OBJ/bunny.obj");
+	Mesh *bunny11 = new Mesh(EruptionMath::vec3(200.0f, 400.0f, 0.0f), "Resources/OBJ/bunny.obj");
+	Mesh *bunny12 = new Mesh(EruptionMath::vec3(600.0f, 400.0f, 0.0f), "Resources/OBJ/bunny.obj");
 
 	meshes.push_back(bunny1);
 	meshes.push_back(bunny2);
