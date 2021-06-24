@@ -28,6 +28,6 @@ private:
 	/** OpenCL template. */
 	cl_kernel kernel;
 	/** OpenGL render target. */
-	cl_mem renderBuffer;
+	cl_mem buffer, buffer2;
 };
 
