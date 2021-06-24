@@ -6,12 +6,10 @@
 #include "Rasterizer.h"
 #include "Mesh.h"
 
-// Threading related libs
+// Threading lib
 #include "precomp.h"
 
-constexpr auto THREADCOUNT = 12;
-
-// Timing variables
+// Timing Variables
 unsigned int old_time, current_time = 0;
 float ftime;
 float total = 0;
@@ -19,19 +17,38 @@ int counter = 0;
 clock_t current_ticks, delta_ticks;
 clock_t fps = 0;
 
-// Application setup
+// Application Setup
 Window* window = new Window();
 SDL_Surface* screen = SDL_GetWindowSurface(window->window);
-CLApplication* clApplication = new CLApplication();
 Rasterizer* rasterizer = new Rasterizer(screen);
 static std::vector<Mesh> meshes;
 static bool g_Running = true;
 
+// OpenCL Setup
+CLApplication* clApplication = new CLApplication();
+
+// ARE THESE NEEDED?
+//cl_platform_id platform;
+//cl_device_id device;
+//cl_context context;
+//cl_program program;
+//cl_command_queue queue;
+//
+//cl_kernel kernel;
+//cl_mem matrixBuffer;
+
+// Triangle and line colors
 EruptionMath::Color color1(0, 255, 0);
 EruptionMath::Color color2(0, 0, 255);
 EruptionMath::Color color3(255, 0, 0);
 
-static void HandleKeyEvent(const SDL_Event &event)
+// Multi Threading Variables
+constexpr auto THREADCOUNT = 8;
+HANDLE goSignal[THREADCOUNT], doneSignal[THREADCOUNT];
+volatile LONG remaining = 0;
+static HANDLE worker[THREADCOUNT];
+
+static void HandleKeyEvent(const SDL_Event& event)
 {
 	switch (event.key.keysym.sym) {
 	default:
@@ -41,7 +58,7 @@ static void HandleKeyEvent(const SDL_Event &event)
 		break;
 	}
 }
-static void HandleEvent(const SDL_Event &event)
+static void HandleEvent(const SDL_Event& event)
 {
 	switch (event.type) {
 	default:
@@ -54,11 +71,6 @@ static void HandleEvent(const SDL_Event &event)
 		break;
 	}
 }
-
-// Multi Threading variables
-HANDLE goSignal[THREADCOUNT], doneSignal[THREADCOUNT];
-volatile LONG remaining = 0;
-static HANDLE worker[THREADCOUNT];
 
 unsigned long __stdcall workerthread(LPVOID param)
 {
@@ -76,27 +88,7 @@ unsigned long __stdcall workerthread(LPVOID param)
 			while (SDL_PollEvent(&event))
 				HandleEvent(event);
 
-			meshes.at(task).Draw(*rasterizer, color1, color2, ftime);
-			/*switch (task) {
-			case 0:
-				meshes.at(0).Draw(*rasterizer, color1, color2, ftime);
-				break;
-			case 1:
-				meshes.at(1).Draw(*rasterizer, color1, color2, ftime);
-				break;
-			case 2:
-				meshes.at(2).Draw(*rasterizer, color1, color2, ftime);
-				break;
-			case 3:
-				meshes.at(3).Draw(*rasterizer, color1, color2, ftime);;
-				break;
-			case 4:
-				meshes.at(4).Draw(*rasterizer, color1, color2, ftime);;
-				break;
-			case 5:
-				meshes.at(5).Draw(*rasterizer, color1, color2, ftime);;
-				break;
-			}*/
+			//meshes.at(task).Draw(*rasterizer, color1, color2, ftime);
 		}
 		SetEvent(doneSignal[threadId]);
 	}
@@ -104,9 +96,10 @@ unsigned long __stdcall workerthread(LPVOID param)
 
 int main(int argc, char* argv[])
 {
-	//clApplication->InitCL();
+	clApplication->InitCL();
 
-	rasterizer->mode = RasterizerMode::Line_And_Fill;
+	// rasterizer->mode = RasterizerMode::Line_And_Fill;
+	rasterizer->mode = RasterizerMode::Line;
 	Mesh bunny1(EruptionMath::vec3(400.0f, 100.0f, 0.0f), "Resources/OBJ/bunny.obj" );
 	Mesh bunny2(EruptionMath::vec3(200.0f, 100.0f, 0.0f), "Resources/OBJ/bunny.obj");
 	Mesh bunny3(EruptionMath::vec3(600.0f, 100.0f, 0.0f), "Resources/OBJ/bunny.obj");
@@ -153,7 +146,7 @@ int main(int argc, char* argv[])
 		initialized = true;
 	}
 
-#if 1
+#if 0
 		while (g_Running)
 		{
 			if (counter == 100)
@@ -197,16 +190,18 @@ int main(int argc, char* argv[])
 
 		SDL_Event event;
 		
+		clApplication->MatrixMultiplication(meshes.at(0).verticies.size());
+
 		while (SDL_PollEvent(&event))
 			HandleEvent(event);
 
 			SDL_FillRect(screen, 0, 0);
 			//render here
 
-			for (auto &mesh : meshes)
-			{
-				mesh.Draw(*rasterizer, color1, color2, ftime);
-			}
+			meshes.at(0).Draw(*rasterizer, color1, color2, ftime, *clApplication);
+
+			/*for (auto &mesh : meshes)
+				mesh.Draw(*rasterizer, color1, color2, ftime, *clApplication);*/
 
 			SDL_UpdateWindowSurface(window->window);
 

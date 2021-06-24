@@ -1,11 +1,16 @@
 #pragma once
 #include "cl_helper.h"
+#include "BasicShader.h"
+#include <vector>
+#include "BasicShader.h"
 
 class CLApplication
 {
 public:
 	/** Initializes everything for OpenCL. */
 	void InitCL();
+
+	void MatrixMultiplication(int meshSize);
 
 private:
 	/* ==== EXAMPLE DATA ==== */
