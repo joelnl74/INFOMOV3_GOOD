@@ -14,3 +14,11 @@ __kernel void example (int width, int height, int offset, __write_only image2d_t
 
 	write_imagef(glTexture, (int2)(x, y), color);
 }
+
+__kernel void matrixmul (__global int* vertices , constant int* test) {
+	int id = get_global_id(0);
+	if (id >= 69451) return;
+  
+	vertices[id] = test[id] + 2;
+}
+
