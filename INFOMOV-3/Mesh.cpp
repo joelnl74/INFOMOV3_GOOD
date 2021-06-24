@@ -18,14 +18,13 @@ Mesh::Mesh(EruptionMath::vec3 vposition, std::string filename)
 	}
 	// ENDCHANGE
 
-	for (int i = 0; i < 800; i++)
+	for (int i = 0; i < WIDTH; i++)
 	{
-		for (int j = 0; j < 600; j++)
+		for (int j = 0; j < HEIGTH; j++)
 		{
-			depthMap[i + 800 * j] = INT_MAX;
+			depthMap[i + WIDTH * j] = INT_MAX;
 		}
 	}
-
 }
 Mesh::~Mesh()
 {
@@ -80,9 +79,9 @@ void Mesh::Draw(Rasterizer &raterizer, EruptionMath::Color color, EruptionMath::
 		auto& vertex2 = ver.p[1];
 		auto& vertex3 = ver.p[2];
 
-		int index1 = vertex1.x + 800 * vertex1.y;
-		int index2 = vertex2.x + 800 * vertex2.y;
-		int index3 = vertex3.x + 800 * vertex3.y;
+		int index1 = vertex1.x + WIDTH * vertex1.y;
+		int index2 = vertex2.x + WIDTH * vertex2.y;
+		int index3 = vertex3.x + WIDTH * vertex3.y;
 
 		auto& depth1 = depthMap[index1];
 		auto& depth2 = depthMap[index2];

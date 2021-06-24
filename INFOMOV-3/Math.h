@@ -3,6 +3,10 @@
 #include "immintrin.h" // for AVX 
 #include "nmmintrin.h" // for SSE4.2
 
+
+constexpr auto WIDTH = 800;
+constexpr auto HEIGTH = 600;
+
 namespace EruptionMath
 {
 	struct vec3

@@ -22,5 +22,6 @@ public:
 private:
 	SDL_Surface *surface;
 	std::vector<EruptionMath::vec3> yCoords;
+	unsigned int depthMap[800 * 600];
 };
 
