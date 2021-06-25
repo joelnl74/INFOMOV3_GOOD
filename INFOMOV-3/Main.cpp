@@ -77,27 +77,8 @@ unsigned long __stdcall workerthread(LPVOID param)
 				HandleEvent(event);
 
 			meshes.at(task).Draw(*rasterizer, color1, color2, ftime);
-			/*switch (task) {
-			case 0:
-				meshes.at(0).Draw(*rasterizer, color1, color2, ftime);
-				break;
-			case 1:
-				meshes.at(1).Draw(*rasterizer, color1, color2, ftime);
-				break;
-			case 2:
-				meshes.at(2).Draw(*rasterizer, color1, color2, ftime);
-				break;
-			case 3:
-				meshes.at(3).Draw(*rasterizer, color1, color2, ftime);;
-				break;
-			case 4:
-				meshes.at(4).Draw(*rasterizer, color1, color2, ftime);;
-				break;
-			case 5:
-				meshes.at(5).Draw(*rasterizer, color1, color2, ftime);;
-				break;
-			}*/
 		}
+
 		SetEvent(doneSignal[threadId]);
 	}
 }
