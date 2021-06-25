@@ -18,13 +18,18 @@ BasicShader::~BasicShader()
 }
 EruptionMath::vec3 BasicShader::VertexShader(EruptionMath::vec3 vec3)
 {
-	EruptionMath::vec3 transformed, projected;
+	EruptionMath::vec4 vec;
+	vec.x = vec3.x;
+	vec.y = vec3.y;
+	vec.z = vec3.z;
+	vec.w = 1.0f;
+	EruptionMath::vec4 transformed, projected;
 	EruptionMath::mat4 matWorld = rotationMat;
 
 	//Matrix multiplication
-	transformed = matWorld.MulitiplyMatrixVector(vec3, matWorld);
+	transformed = matWorld.MulitiplyMatrixVector(vec, matWorld);
 	projected = matWorld.MulitiplyMatrixVector(transformed, projectionMatirx);
-	
+
 	projected = projected / projected.w;
 	//set into screen space
 	projected.x += 1; projected.y += 1;
@@ -33,7 +38,11 @@ EruptionMath::vec3 BasicShader::VertexShader(EruptionMath::vec3 vec3)
 	projected.x *= pos.x;
 	projected.y *= pos.y;
 
-	return projected;
+	EruptionMath::vec3 test;
+	test.x = projected.x;
+	test.y = projected.y;
+	test.z = projected.z;
+	return test;
 }
 EruptionMath::Color BasicShader::FragmentShader(EruptionMath::Color color)
 {

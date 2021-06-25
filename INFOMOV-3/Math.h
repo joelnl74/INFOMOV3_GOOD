@@ -5,28 +5,40 @@
 
 namespace EruptionMath
 {
-	struct vec3
+	struct vec4
 	{
 		float x;
 		float y;
 		float z;
 		float w;
+		vec4(float x = 0.0f, float y = 0.0f, float z = 0.0f, float w = 1.0f) : x(x), y(y), z(z), w(w) {}
 
-		vec3(float x = 0.0f, float y = 0.0f, float z = 0.0f, float w = 1.0f) : x(x), y(y), z(z), w(w) {}
+		vec4 operator / (float k)
+		{
+			return vec4(x / k, y / k, z / k);
+		}
+	};
+	struct vec3
+	{
+		float x;
+		float y;
+		float z;
+
+		vec3(float x = 0.0f, float y = 0.0f, float z = 0.0f) : x(x), y(y), z(z) {}
 		//add
-		vec3 operator +(const vec3 &rhs)
+		vec3 operator +(const vec3& rhs)
 		{
 			return vec3(x + rhs.x, y + rhs.y, z + rhs.z);
 		};
 		//subtract
-		vec3 operator -(const vec3 &rhs)
+		vec3 operator -(const vec3& rhs)
 		{
 			return vec3(x - rhs.x, y - rhs.y, z - rhs.z);
 		}
 		//?
 		vec3 operator / (float k)
 		{
-			return vec3(x / k,y /k, z / k);
+			return vec3(x / k, y / k, z / k);
 		}
 		//get Magnitude of the vector
 		__forceinline float GetMagnitude()
@@ -49,12 +61,12 @@ namespace EruptionMath
 			return vec3(x, y, z);
 		}
 		//calculate and return dot product
-		__forceinline float DotProduct(const vec3 &vec, const vec3 &vec1) const
+		__forceinline float DotProduct(const vec3& vec, const vec3& vec1) const
 		{
 			return (vec.x * vec1.x) + (vec.y * vec1.y) + (vec.z * vec1.z);
 		}
 		//calculate and return cross product
-		__forceinline vec3 CrossProduct(const vec3 &vec) const
+		__forceinline vec3 CrossProduct(const vec3& vec) const
 		{
 			return vec3(y * vec.z - z * vec.y,
 				z * vec.x - x * vec.z,
@@ -328,7 +340,7 @@ namespace EruptionMath
 			return matrix;
 		}
 		//Multiply a vector by a matrix
-		__forceinline vec3 MulitiplyMatrixVector(vec3 &v, mat4 &m)
+		__forceinline vec4 MulitiplyMatrixVector(vec4 &v, mat4 &m)
 		{
 			// BEGIN REFERENCE CODE
 			// vec3 v;
@@ -374,7 +386,7 @@ namespace EruptionMath
 			// Add them together
 			__m128 f2 = _mm_add_ps(f0, f1);
 
-			return vec3{ f2.m128_f32[0], f2.m128_f32[1], f2.m128_f32[2], f2.m128_f32[3] };
+			return vec4{ f2.m128_f32[0], f2.m128_f32[1], f2.m128_f32[2], f2.m128_f32[3] };
 		}
 	};
 };
