@@ -88,7 +88,7 @@ unsigned long __stdcall workerthread(LPVOID param)
 			while (SDL_PollEvent(&event))
 				HandleEvent(event);
 
-			//meshes.at(task).Draw(*rasterizer, color1, color2, ftime);
+			meshes.at(task).Draw(*rasterizer, color1, color2, ftime, *clApplication);
 		}
 		SetEvent(doneSignal[threadId]);
 	}
@@ -97,6 +97,7 @@ unsigned long __stdcall workerthread(LPVOID param)
 int main(int argc, char* argv[])
 {
 	clApplication->InitCL();
+	printf("%i\n", sizeof(EruptionMath::vec4));
 
 	// rasterizer->mode = RasterizerMode::Line_And_Fill;
 	rasterizer->mode = RasterizerMode::Line;
@@ -146,7 +147,7 @@ int main(int argc, char* argv[])
 		initialized = true;
 	}
 
-#if 0
+#if 1
 		while (g_Running)
 		{
 			if (counter == 100)
@@ -190,7 +191,8 @@ int main(int argc, char* argv[])
 
 		SDL_Event event;
 		
-		clApplication->MatrixMultiplication(meshes.at(0).verticies.size());
+
+		clApplication->MatrixMultiplication(meshes.at(0).verticies, meshes.at(0).verticies.size());
 
 		while (SDL_PollEvent(&event))
 			HandleEvent(event);

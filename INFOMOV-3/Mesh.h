@@ -21,5 +21,6 @@ public:
 private:
 	float fTheta;
 	std::vector<EruptionMath::Triangle> toDraw;
+	
 };
 

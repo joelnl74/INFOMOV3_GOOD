@@ -10,7 +10,9 @@ public:
 	/** Initializes everything for OpenCL. */
 	void InitCL();
 
-	void MatrixMultiplication(int meshSize);
+	void MatrixMultiplication(std::vector<EruptionMath::Triangle> triangles, int meshSize);
+	~CLApplication();
+
 
 private:
 	/* ==== EXAMPLE DATA ==== */
@@ -28,6 +30,6 @@ private:
 	/** OpenCL template. */
 	cl_kernel kernel;
 	/** OpenGL render target. */
-	cl_mem buffer, buffer2;
+	cl_mem buffer, output;
 };
 

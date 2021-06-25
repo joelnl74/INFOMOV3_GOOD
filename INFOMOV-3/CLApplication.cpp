@@ -20,20 +20,45 @@ void CLApplication::InitCL()
 	CLhelper::CreateKernel(kernel, program, "matrixmul");
 }
 
-void CLApplication::MatrixMultiplication(int meshSize)
+void CLApplication::MatrixMultiplication(std::vector<EruptionMath::Triangle> triangles, int meshSize)
 {
-	cl_int input[] = { 0, 1, 2, 3 };
-	const size_t global_work_size = sizeof(input);
+	EruptionMath::Triangle* inputTriangles = (EruptionMath::Triangle*)malloc(sizeof(EruptionMath::Triangle) * meshSize);
+	for (int i = 0; i < meshSize; i++) {
+		float j = i;
+		inputTriangles[i] = triangles[i];
+	}
 
-	buffer = clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, sizeof(input), &input, NULL);
+	EruptionMath::Triangle* outputTriangles = (EruptionMath::Triangle*)malloc(sizeof(EruptionMath::Triangle) * meshSize);
+
+	// Input
+	buffer = clCreateBuffer(context, CL_MEM_READ_WRITE | CL_MEM_COPY_HOST_PTR, sizeof(EruptionMath::Triangle) * meshSize, inputTriangles, NULL);
+	//output = clCreateBuffer(context, CL_MEM_WRITE_ONLY, sizeof(EruptionMath::Triangle) * meshSize, NULL, NULL);
 
 	clSetKernelArg(kernel, 0, sizeof(cl_mem), &buffer);
-	clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &global_work_size, NULL, 0, NULL, NULL);
+	//clSetKernelArg(kernel, 1, sizeof(cl_mem), &output);
 
+	const size_t global_work_size = meshSize;
+
+	clEnqueueNDRangeKernel(queue, kernel, 1, NULL, &global_work_size, NULL, 0, NULL, NULL);
+	//clEnqueueWriteBuffer(queue, buffer, CL_TRUE, 0, sizeof(EruptionMath::Triangle) * meshSize, outputTriangles, 0, NULL, NULL);
+	clEnqueueReadBuffer(queue, buffer, CL_TRUE, 0, sizeof(EruptionMath::Triangle) * meshSize, outputTriangles, 0, NULL, NULL);
+
+	for (int i = 0; i < meshSize; i++)
+	{
+		EruptionMath::Triangle test = inputTriangles[i];
+		printf("%f\n", test.p->x);
+	}
+}
+
+CLApplication::~CLApplication()
+{
 	clFlush(queue);
 	clFinish(queue);
-	
-	clEnqueueReadBuffer(queue, buffer, CL_TRUE, 0, sizeof(input), &input, 0, NULL, NULL);
 
-	printf("%i\n", input[0]);
+	clReleaseKernel(kernel); //Release kernel.
+	clReleaseProgram(program); //Release the program object.
+	clReleaseMemObject(buffer); //Release mem object.
+	clReleaseMemObject(output);
+	clReleaseCommandQueue(queue); //Release  Command queue.
+	clReleaseContext(context); //Release context.
 }

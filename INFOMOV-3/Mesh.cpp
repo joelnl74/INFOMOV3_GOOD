@@ -21,7 +21,7 @@ Mesh::Mesh(EruptionMath::vec3 vposition, std::string filename)
 Mesh::~Mesh()
 {
 }
-void Mesh::Draw(Rasterizer &rasterizer, EruptionMath::Color color, EruptionMath::Color lineColor, float time, CLApplication &clApplication)
+void Mesh::Draw(Rasterizer& rasterizer, EruptionMath::Color color, EruptionMath::Color lineColor, float time, CLApplication& clApplication)
 {
 	fTheta += 1.0f * time;
 
@@ -42,7 +42,7 @@ void Mesh::Draw(Rasterizer &rasterizer, EruptionMath::Color color, EruptionMath:
 	{
 		auto& tri = verticies[i];
 
-		EruptionMath::Triangle &triangle = toDraw[i];
+		EruptionMath::Triangle& triangle = toDraw[i];
 
 		EruptionMath::vec3 p0 = shader->VertexShader(tri.p[0]);
 		EruptionMath::vec3 p1 = shader->VertexShader(tri.p[1]);
@@ -57,26 +57,26 @@ void Mesh::Draw(Rasterizer &rasterizer, EruptionMath::Color color, EruptionMath:
 	// Changed move this code from inside the loop to outside the loop, more cache friendly
 	// Painters algorithm what should be drawn last, so you see those pixels
 	std::sort(toDraw.begin(), toDraw.end(), [](EruptionMath::Triangle& tri1, EruptionMath::Triangle& tri2)
-	{
-		// CHANGE Removed / from code
-		float z1 = (tri1.p[0].z + tri1.p[1].z + tri1.p[2].z);
-		float z2 = (tri2.p[0].z + tri2.p[1].z + tri2.p[2].z);
-		// ENDCHANGE
+		{
+			// CHANGE Removed / from code
+			float z1 = (tri1.p[0].z + tri1.p[1].z + tri1.p[2].z);
+			float z2 = (tri2.p[0].z + tri2.p[1].z + tri2.p[2].z);
+			// ENDCHANGE
 
-		return z1 > z2;
-	});
+			return z1 > z2;
+		});
 
 
 	// CHANGED TO REFERENCE.
-	for (auto &ver : toDraw)
+	for (auto& ver : toDraw)
 	{
-	// CHANGED TO REFERENCE.
+		// CHANGED TO REFERENCE.
 		rasterizer.DrawTriangle(ver, faceColor, linesColor);
 	}
 	// Changed move this code from inside the loop to outside the loop, more cache friendly
 }
 
-void Mesh::SetShader(float time) 
+void Mesh::SetShader(float time)
 {
 	fTheta += 1.0f * time;
 
